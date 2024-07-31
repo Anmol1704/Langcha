@@ -18,13 +18,13 @@ def generate_content(prompt, max_tokens=150):
 st.title('Content Creation Assistant')
 
 st.write("""
-    Welcome to the Content Creation Assistant! This tool helps bloggers, marketers, and writers generate ideas and social media posts, and marketing campaigns.
+    Welcome to the Content Creation Assistant! This tool helps bloggers, marketers, and writers generate ideas, social media posts, and marketing campaigns.
 """)
 
 # Input for content type
 content_type = st.selectbox(
     "Choose the type of content you want to generate:",
-    ("Social Media Post", "Marketing Campaign")
+    ("Social Media Post", "Marketing Campaign", "Article Idea")
 )
 
 # Input for content topic
@@ -35,10 +35,16 @@ if st.button('Generate Content'):
         prompt = f"Generate a list of article ideas based on the topic: {user_input}"
     elif content_type == "Social Media Post":
         prompt = f"Create a social media post about: {user_input}"
-    else:
+    elif content_type == "Marketing Campaign":
         prompt = f"Draft a marketing campaign focused on: {user_input}"
 
     content = generate_content(prompt)
     st.write(content)  # Display the generated content
 
-   
+    # Save content button
+    st.download_button(
+        label="Save Content",
+        data=content,
+        file_name=f"{content_type.replace(' ', '_')}_content.txt",
+        mime="text/plain"
+    )
